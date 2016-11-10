@@ -10,6 +10,7 @@
 #include <curses.h>
 #include <libintl.h>
 #include <locale.h>
+#include "duktape.h"
 
 #define _(STRING) gettext(STRING)
 
