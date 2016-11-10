@@ -17,7 +17,7 @@ int row;
 int column;
 int r,c,nrows,ncols;
 WINDOW *wnd;
-char board[3][3];
+char board[3][3] = {{'E','E','E'},{'E','E','E'},{'E','E','E'}};
 int A = 6;
 int B = 8;
 int C = 10;
@@ -88,7 +88,7 @@ void drawBoard() // Draws the initial blank board
 	return;
 }
 
-void initVBoard() // Initialize the virtual board to blank
+void initVBoard() // Initialize the virtual board to blank -- BROKEN
 {
 	int x=0;
 	int y=0;
@@ -174,6 +174,9 @@ bool isBlank(int number, int letter) // Tests if a spot on the game board is emp
 {
 	int x;
 	int y;
+	char str[50];
+	sprintf(str, "%d", number);
+	mvprintw(18,6,str);
 	if(number==ONE)
 	{
 		x = 0;
@@ -199,17 +202,17 @@ bool isBlank(int number, int letter) // Tests if a spot on the game board is emp
 		if(letter==A)
 		{
 			y = 0;
-			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==B)
 		{
 			y = 1;
-			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==C)
 		{
 			y = 2;
-			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 	}
 	else if(number==THREE)
@@ -218,17 +221,17 @@ bool isBlank(int number, int letter) // Tests if a spot on the game board is emp
 		if(letter==A)
 		{
 			y = 0;
-			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==B)
 		{
 			y = 1;
-			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==C)
 		{
 			y = 2;
-			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 	}
 	return true;    // If no match is found, return true to continue looping in getPlayerInput()
@@ -277,11 +280,10 @@ void getPlayerInput() // This function collects player input for tile to play
 		if ((number>=0) && (letter>=0))
 		{
 			loop = isBlank(number,letter);
-			if(loop)
+			if(loop==true)
 			{
 				number = -1;
 				letter = -1;
-				mvprintw(18,6,"GET OUT OF HERE");
 				messages(2);
 				messages(4);
 			}
@@ -355,7 +357,7 @@ int main()
 	drawBoard();    // Call to draw the initial blank board
 	cbreak();    // Curses call to not require enter key for input
 	noecho();    // Curses call to not print input characters
-	initVBoard();
+//	initVBoard();
 	//testDraw();
 	char game = 'Z';
 	while(true)
