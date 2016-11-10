@@ -344,10 +344,8 @@ char testWin()
 			return 'O'; // If horizontal line - X wins
 		}
 	}
-	else
-	{
-		return 'Z';
-	}
+
+	return 'Z';
 
 }
 
