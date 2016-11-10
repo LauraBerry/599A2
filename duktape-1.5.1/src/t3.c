@@ -10,7 +10,6 @@
 #include <curses.h>
 #include <libintl.h>
 #include <locale.h>
-#include "duktape.h"
 
 #define _(STRING) gettext(STRING)
 
@@ -18,13 +17,14 @@ int row;
 int column;
 int r,c,nrows,ncols;
 WINDOW *wnd;
-char *board[3][3];
+char board[3][3] = {{'E','E','E'},{'E','E','E'},{'E','E','E'}};
 int A = 6;
 int B = 8;
 int C = 10;
 int ONE = 10;
 int TWO = 12;
 int THREE = 14;
+char EMPTY = 'E';
 
 void init() // Initializing tasks, run when the program starts
 {
@@ -55,7 +55,14 @@ void messages(int opcode) // This function will be used for printing messages on
 	{
 		mvprintw(13,6,"That space is not empty!");
 	}
-
+	else if(opcode==5)
+	{
+		mvprintw(13,6,"X Wins!");
+	}
+	else if(opcode==6)
+	{
+		mvprintw(13,6,"O Wins!");
+	}
 	return;
 }
 
@@ -81,15 +88,16 @@ void drawBoard() // Draws the initial blank board
 	return;
 }
 
-void initVBoard() // Initialize the virtual board to blank
+void initVBoard() // Initialize the virtual board to blank -- BROKEN
 {
 	int x=0;
 	int y=0;
-	while(x<=3)
+//	board = {{'E','E','E'},{'E','E','E'},{'E','E','E'}};
+	while(x<3)
 	{
-		while(y<=3)
+		while(y<3)
 		{
-			board[x][y]="E"; // Set the space on the board with an invalid character
+			board[x][y]=EMPTY; // Set the space on the board with an invalid character
 			y++;
 		}
 		x++;
@@ -162,27 +170,30 @@ void updateBoard(int number, int letter, char player)    // Updates the virtual 
 	return;
 }
 
-bool isBlank(int number, int letter)
+bool isBlank(int number, int letter) // Tests if a spot on the game board is empty
 {
 	int x;
 	int y;
+	char str[50];
+	sprintf(str, "%d", number);
+	mvprintw(18,6,str);
 	if(number==ONE)
 	{
 		x = 0;
 		if(letter==A)
 		{
 			y = 0;
-			return !(board[x][y]=="E");    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==B)
 		{
 			y = 1;
-			return !(board[x][y]=="E");    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==C)
 		{
 			y = 2;
-			return !(board[x][y]=="E");    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 	}
 	else if(number==TWO)
@@ -191,17 +202,17 @@ bool isBlank(int number, int letter)
 		if(letter==A)
 		{
 			y = 0;
-			return !(board[x][y]=="E");    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==B)
 		{
 			y = 1;
-			return !(board[x][y]=="E");    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==C)
 		{
 			y = 2;
-			return !(board[x][y]=="E");    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 	}
 	else if(number==THREE)
@@ -210,17 +221,17 @@ bool isBlank(int number, int letter)
 		if(letter==A)
 		{
 			y = 0;
-			return !(board[x][y]=="E");    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==B)
 		{
 			y = 1;
-			return !(board[x][y]=="E");    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==C)
 		{
 			y = 2;
-			return !(board[x][y]=="E");    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 	}
 	return true;    // If no match is found, return true to continue looping in getPlayerInput()
@@ -245,7 +256,7 @@ void getPlayerInput() // This function collects player input for tile to play
 			mvprintw(14,8,"B");
 			letter = B;
 		}
-		else if (choice == 'c' || choice == 'B')
+		else if (choice == 'c' || choice == 'C')
 		{
 			mvprintw(14,8,"C");
 			letter = C;
@@ -269,7 +280,7 @@ void getPlayerInput() // This function collects player input for tile to play
 		if ((number>=0) && (letter>=0))
 		{
 			loop = isBlank(number,letter);
-			if(loop)
+			if(loop==true)
 			{
 				number = -1;
 				letter = -1;
@@ -292,17 +303,122 @@ void getComputerInput()
 	// **ADD** Computer player code, include scripting abilitiy
 }
 
+char testWin()
+{
+	char mid = board[1][1];
+	if(mid=='X')
+	{
+		if(board[0][0]=='X' && board[2][2]=='X')
+		{		
+			return 'X'; // If diagonal line \ X wins
+		}
+		else if(board[0][1]=='X' && board[2][1]=='X')
+		{
+			return 'X'; // If vertical line | X wins
+		}
+		else if(board[0][2]=='X' && board[2][0]=='X')
+		{
+			return 'X'; // If diagonal line / X wins
+		}
+		else if(board[1][0]=='X' && board[1][2]=='X')
+		{
+			return 'X'; // If horizontal line - X wins
+		}
+	}
+	else if(mid=='O')
+	{
+		if(board[0][0]=='O' && board[2][2]=='O')
+		{		
+			return 'O'; // If diagonal line \ X wins
+		}
+		else if(board[0][1]=='O' && board[2][1]=='O')
+		{
+			return 'O'; // If vertical line | X wins
+		}
+		else if(board[0][2]=='O' && board[2][0]=='O')
+		{
+			return 'O'; // If diagonal line / X wins
+		}
+		else if(board[1][0]=='O' && board[1][2]=='O')
+		{
+			return 'O'; // If horizontal line - X wins
+		}
+	}
+	else if(board[0][0]=='X')
+	{
+		if(board[0][1]=='X' && board[0][2]=='X')
+		{
+			return 'X';
+		}
+		else if(board[1][0]=='X' && board[2][0]=='X')
+		{
+			return 'X';
+		}
+	}
+	else if(board[0][0]=='O')
+	{
+		if(board[0][1]=='O' && board[0][2]=='O')
+		{
+			return 'O';
+		}
+		else if(board[1][0]=='O' && board[2][0]=='O')
+		{
+			return 'O';
+		}
+	}
+	else if(board[2][2]=='X')
+	{
+		if(board[2][0]=='X' && board[2][1]=='X')
+		{
+			return 'X';
+		}
+		else if(board[1][2]=='X' && board[0][2]=='X')
+		{
+			return 'X';
+		}
+	}
+	else if(board[2][2]=='O')
+	{
+		if(board[2][0]=='O' && board[2][1]=='O')
+		{
+			return 'O';
+		}
+		else if(board[1][2]=='O' && board[0][2]=='O')
+		{
+			return 'O';
+		}
+	}
+
+	return 'Z';
+}
+
 int main()
 {
 	init();    // Call function to initialize curses
 	drawBoard();    // Call to draw the initial blank board
 	cbreak();    // Curses call to not require enter key for input
 	noecho();    // Curses call to not print input characters
+//	initVBoard();
 	//testDraw();
+	char game = 'Z';
 	while(true)
 	{
 		getPlayerInput();    // This function call gets player input for a space to play
 		getComputerInput();
+		game = testWin();    // This function tests for a win state
+		if(game!='Z')
+		{
+			break;
+		}
+	}
+	messages(3);
+	if(game=='X')
+	{
+		messages(5);
+	}
+	else if(game=='O')
+	{
+		messages(6);
 	}
 //	if(mvscanw(6,10,"X")==1)
 //	{
