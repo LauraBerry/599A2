@@ -394,6 +394,12 @@ char testWin()
 
 int main()
 {
+	setlocale(LC_ALL, "");
+	bindtextdomain("t3","lang_fr");
+	bindtextdomain("t3","lang_es");
+	bindtextdomain("t3","lang_de");
+	textdomain("t3");
+
 	init();    // Call function to initialize curses
 	drawBoard();    // Call to draw the initial blank board
 	cbreak();    // Curses call to not require enter key for input
