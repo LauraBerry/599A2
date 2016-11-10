@@ -96,7 +96,7 @@ void initVBoard() // Initialize the virtual board to blank
 	{
 		while(y<3)
 		{
-			board[x][y]='E'; // Set the space on the board with an invalid character
+			board[x][y]=EMPTY; // Set the space on the board with an invalid character
 			y++;
 		}
 		x++;
@@ -179,17 +179,17 @@ bool isBlank(int number, int letter) // Tests if a spot on the game board is emp
 		if(letter==A)
 		{
 			y = 0;
-			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==B)
 		{
 			y = 1;
-			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==C)
 		{
 			y = 2;
-			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
+			return (board[x][y]!=EMPTY);    // Return false if the intended space is empty
 		}
 	}
 	else if(number==TWO)
@@ -218,17 +218,17 @@ bool isBlank(int number, int letter) // Tests if a spot on the game board is emp
 		if(letter==A)
 		{
 			y = 0;
-			return !(board[x][y]=='E');    // Return false if the intended space is empty
+			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==B)
 		{
 			y = 1;
-			return !(board[x][y]=='E');    // Return false if the intended space is empty
+			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
 		}
 		else if (letter==C)
 		{
 			y = 2;
-			return !(board[x][y]=='E');    // Return false if the intended space is empty
+			return !(board[x][y]==EMPTY);    // Return false if the intended space is empty
 		}
 	}
 	return true;    // If no match is found, return true to continue looping in getPlayerInput()
