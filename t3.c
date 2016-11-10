@@ -17,7 +17,7 @@ int row;
 int column;
 int r,c,nrows,ncols;
 WINDOW *wnd;
-char *board[3][3];
+char board[3][3];
 int A = 6;
 int B = 8;
 int C = 10;
@@ -92,16 +92,16 @@ void initVBoard() // Initialize the virtual board to blank
 {
 	int x=0;
 	int y=0;
-	board = {{'E','E','E'},{'E','E','E'},{'E','E','E'}}
-//	while(x<3)
-//	{
-//		while(y<3)
-//		{
-//			board[x][y]=EMPTY; // Set the space on the board with an invalid character
-//			y++;
-//		}
-//		x++;
-//	}
+//	board = {{'E','E','E'},{'E','E','E'},{'E','E','E'}};
+	while(x<3)
+	{
+		while(y<3)
+		{
+			board[x][y]=EMPTY; // Set the space on the board with an invalid character
+			y++;
+		}
+		x++;
+	}
 	return;
 }
 
@@ -281,6 +281,7 @@ void getPlayerInput() // This function collects player input for tile to play
 			{
 				number = -1;
 				letter = -1;
+				mvprintw(18,6,"GET OUT OF HERE");
 				messages(2);
 				messages(4);
 			}
@@ -305,38 +306,38 @@ char testWin()
 	char mid = board[1][1];
 	if(mid=='X')
 	{
-		if(board[0][0]=="X" && board[2][2]=="X")
+		if(board[0][0]=='X' && board[2][2]=='X')
 		{		
 			return 'X'; // If diagonal line \ X wins
 		}
-		else if(board[0][1]=="X" && board[2][1]=="X")
+		else if(board[0][1]=='X' && board[2][1]=='X')
 		{
 			return 'X'; // If vertical line | X wins
 		}
-		else if(board[0][2]=="X" && board[2][0]=="X")
+		else if(board[0][2]=='X' && board[2][0]=='X')
 		{
 			return 'X'; // If diagonal line / X wins
 		}
-		else if(board[1][0]=="X" && board[1][2]=="X")
+		else if(board[1][0]=='X' && board[1][2]=='X')
 		{
 			return 'X'; // If horizontal line - X wins
 		}
 	}
 	else if(mid=='O')
 	{
-		if(board[0][0]=="O" && board[2][2]=="O")
+		if(board[0][0]=='O' && board[2][2]=='O')
 		{		
 			return 'O'; // If diagonal line \ X wins
 		}
-		else if(board[0][1]=="O" && board[2][1]=="O")
+		else if(board[0][1]=='O' && board[2][1]=='O')
 		{
 			return 'O'; // If vertical line | X wins
 		}
-		else if(board[0][2]=="O" && board[2][0]=="O")
+		else if(board[0][2]=='O' && board[2][0]=='O')
 		{
 			return 'O'; // If diagonal line / X wins
 		}
-		else if(board[1][0]=="O" && board[1][2]=="O")
+		else if(board[1][0]=='O' && board[1][2]=='O')
 		{
 			return 'O'; // If horizontal line - X wins
 		}
