@@ -346,7 +346,6 @@ char testWin()
 	}
 
 	return 'Z';
-
 }
 
 int main()
