@@ -92,15 +92,16 @@ void initVBoard() // Initialize the virtual board to blank
 {
 	int x=0;
 	int y=0;
-	while(x<3)
-	{
-		while(y<3)
-		{
-			board[x][y]=EMPTY; // Set the space on the board with an invalid character
-			y++;
-		}
-		x++;
-	}
+	board = {{'E','E','E'},{'E','E','E'},{'E','E','E'}}
+//	while(x<3)
+//	{
+//		while(y<3)
+//		{
+//			board[x][y]=EMPTY; // Set the space on the board with an invalid character
+//			y++;
+//		}
+//		x++;
+//	}
 	return;
 }
 
@@ -194,7 +195,6 @@ bool isBlank(int number, int letter) // Tests if a spot on the game board is emp
 	}
 	else if(number==TWO)
 	{
-		mvprintw(18,6,"TWO");
 		x = 1;
 		if(letter==A)
 		{
