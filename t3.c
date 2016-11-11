@@ -395,9 +395,9 @@ char testWin()
 int main()
 {
 	setlocale(LC_ALL, "");
-	bindtextdomain("t3","lang/fr");
-	bindtextdomain("t3","lang/es");
-	bindtextdomain("t3","lang/de");
+	bindtextdomain("t3","/fr/LC_MESSAGES/t3.mo");
+	bindtextdomain("t3","/es/LC_MESSAGES/t3.mo");
+	bindtextdomain("t3","/de/LC_MESSAGES/t3.mo");
 	textdomain("t3");
 
 	init();    // Call function to initialize curses
