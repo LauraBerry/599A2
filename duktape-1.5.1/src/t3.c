@@ -400,7 +400,7 @@ int main(int argc, const char *argv[])
 		printf("Failed to create a Duktape heap.\n");
 		exit(1);
 	}
-	if(duk_preval_file(ctx,"Stratagy1.js") != 0)
+	if(duk_peval_file(ctx,"Stratagy1.js") != 0)
 	{
 		printf("Error: %s\n", duk_safe_to_string(ctx, -1));
 		goto finished;
