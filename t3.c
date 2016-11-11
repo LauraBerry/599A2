@@ -39,7 +39,7 @@ void messages(int opcode) // This function will be used for printing messages on
 { // Used to easily add in language localization
 	if(opcode==1) // opcode for user space selection prompt
 	{
-		mvprintw(13,6,"Choose an empty space   "); 
+		mvprintw(13,6,_("Choose an empty space   ")); 
 		mvprintw(14,7,"( , )");
 	}
 	else if(opcode==2) // opcode for resetting space selection output
@@ -53,15 +53,15 @@ void messages(int opcode) // This function will be used for printing messages on
 	}
 	else if(opcode==4) // opcode for showing "space not blank" error
 	{
-		mvprintw(13,6,"That space is not empty!");
+		mvprintw(13,6,_("That space is not empty!"));
 	}
 	else if(opcode==5)
 	{
-		mvprintw(13,6,"X Wins!");
+		mvprintw(13,6,_("X Wins!"));
 	}
 	else if(opcode==6)
 	{
-		mvprintw(13,6,"O Wins!");
+		mvprintw(13,6,_("O Wins!"));
 	}
 	return;
 }
@@ -395,9 +395,9 @@ char testWin()
 int main()
 {
 	setlocale(LC_ALL, "");
-	bindtextdomain("t3","lang_fr");
-	bindtextdomain("t3","lang_es");
-	bindtextdomain("t3","lang_de");
+	bindtextdomain("t3","lang/fr");
+	bindtextdomain("t3","lang/es");
+	bindtextdomain("t3","lang/de");
 	textdomain("t3");
 
 	init();    // Call function to initialize curses
