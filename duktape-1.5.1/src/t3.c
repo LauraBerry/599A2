@@ -394,7 +394,7 @@ char testWin() // Tests the board for win conditions and returns who won, if any
 
 int main(int argc, const char *argv[])
 {
-	duk_context *ctx = NULL;
+	duk_context *ctx;
 	ctx = duk_create_heap_default();
 	if(!ctx)
 	{
@@ -402,11 +402,11 @@ int main(int argc, const char *argv[])
 		exit(1);
 	}
 // The following code causes running the program to fail
-//	if(duk_peval_file(ctx,"Stratagy1.js") != 0)
-//	{
-//		printf("Error: %s\n", duk_safe_to_string(ctx, -1));
-//		goto finished;
-//	}
+	if(duk_peval_file(ctx,"Stratagy1.js") != 0)
+	{
+		printf("Error: %s\n", duk_safe_to_string(ctx, -1));
+		goto finished;
+	}
 	
 	setlocale(LC_ALL, "");
 	bindtextdomain("t3","/fr/LC_MESSAGES/t3.mo");
@@ -438,11 +438,11 @@ int main(int argc, const char *argv[])
 	{
 		messages(6);
 	}
-
+	mvprintw(18,6,"GAME OVER");
 	refresh();
 finished:
 	duk_destroy_heap(ctx);
-	mvprintw(18,6,"GAME OVER");
+
 	return 0;
 }
 
