@@ -1,6 +1,7 @@
 /* CPSC 599 - Assignment 2
  * By: Yue Chen, Laura Berry, Andrew Lata
  * 
+ * gcc -std=c99 duktape.c t3.c -lm -lncurses
  */
 
 
@@ -400,11 +401,12 @@ int main(int argc, const char *argv[])
 		printf("Failed to create a Duktape heap.\n");
 		exit(1);
 	}
-	if(duk_peval_file(ctx,"Stratagy1.js") != 0)
-	{
-		printf("Error: %s\n", duk_safe_to_string(ctx, -1));
-		goto finished;
-	}
+// The following code causes running the program to fail
+//	if(duk_peval_file(ctx,"Stratagy1.js") != 0)
+//	{
+//		printf("Error: %s\n", duk_safe_to_string(ctx, -1));
+//		goto finished;
+//	}
 	
 	setlocale(LC_ALL, "");
 	bindtextdomain("t3","/fr/LC_MESSAGES/t3.mo");
