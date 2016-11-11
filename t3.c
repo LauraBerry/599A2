@@ -10,6 +10,7 @@
 #include <curses.h>
 #include <libintl.h>
 #include <locale.h>
+#include "duktape.h"
 
 #define _(STRING) gettext(STRING)
 
@@ -175,8 +176,6 @@ bool isBlank(int number, int letter) // Tests if a spot on the game board is emp
 	int x;
 	int y;
 	char str[50];
-	sprintf(str, "%d", number);
-	mvprintw(18,6,str);
 	if(number==ONE)
 	{
 		x = 0;
@@ -303,7 +302,7 @@ void getComputerInput()
 	// **ADD** Computer player code, include scripting abilitiy
 }
 
-char testWin()
+char testWin() // Tests the board for win conditions and returns who won, if any, and Z if nobody wins
 {
 	char mid = board[1][1];
 	if(mid=='X')
@@ -392,8 +391,21 @@ char testWin()
 	return 'Z';
 }
 
-int main()
+int main(int argc, const char *argv[])
 {
+	duk_context *ctx = NULL;
+	ctx = duk_create_heap_default();
+	if(!ctx)
+	{
+		printf("Failed to create a Duktape heap.\n");
+		exit(1);
+	}
+	if(duk_preval_file(ctx,argv[1]) != 0)
+	{
+		printf("Error: %s\n", duk_safe_to_string(ctx, -1);
+		goto finished;
+	}
+	
 	setlocale(LC_ALL, "");
 	bindtextdomain("t3","/fr/LC_MESSAGES/t3.mo");
 	bindtextdomain("t3","/es/LC_MESSAGES/t3.mo");
@@ -404,8 +416,6 @@ int main()
 	drawBoard();    // Call to draw the initial blank board
 	cbreak();    // Curses call to not require enter key for input
 	noecho();    // Curses call to not print input characters
-//	initVBoard();
-	//testDraw();
 	char game = 'Z';
 	while(true)
 	{
@@ -426,16 +436,11 @@ int main()
 	{
 		messages(6);
 	}
-//	if(mvscanw(6,10,"X")==1)
-//	{
-//		mvprintw(13,6,"Yes");
-//	}
-//	else
-//	{
-//		mvprintw(13,6,"No");
-//	}
-	refresh();
 
+	refresh();
+finished:
+	duk_destroy_heap(ctx);
+	mvprintw(18,6,"GAME OVER");
 	return 0;
 }
 
