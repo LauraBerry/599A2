@@ -1,5 +1,5 @@
 /* CPSC 599 - Assignment 2
- * By: Andrew Lata, Yue Chen, Laura Berry
+ * By: Yue Chen, Laura Berry, Andrew Lata
  * 
  * gcc -std=c99 duktape.c t3.c -lm -lncurses
  */
@@ -316,9 +316,23 @@ void getPlayerInput() // This function collects player input for tile to play
 	return;
 }
 
-void getComputerInput()
+bool getComputerInput()
 {
 	messages(3); // clear player's prompts
+	int x, y;
+	for(x=0;x<3;x++)
+	{
+		for(y=0;y<3;y++)
+		{
+			if(board[x][y]==EMPTY)
+			{
+				board[x][y]='O';
+				mvprintw(parseLetterCoord(x),parseNumCoord(y),"O");
+				return true;	
+			}
+		}
+	}
+	return false;
 	// **ADD** Computer player code, include scripting abilitiy
 }
 
@@ -443,6 +457,7 @@ int main(int argc, const char *argv[])
 	while(true)
 	{
 		getPlayerInput();    // This function call gets player input for a space to play
+/*
 //////////////// Start js computer turn
 		while(comp)
 		{
@@ -482,12 +497,19 @@ int main(int argc, const char *argv[])
 			}
 		}
 //////////////// End js computer turn
-
+*/
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
 			break;
 		}
+		
+/*		getComputerInput();
+		if(comp==false)
+		{
+			break;
+		}
+*/
 	}
 	messages(3);
 	if(game=='X')
