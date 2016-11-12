@@ -1,4 +1,4 @@
-function stratey(a, b)
+function strategy(a, b)
 {
 	var a= Math.random();
 	a=a*20;
