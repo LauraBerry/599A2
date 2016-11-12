@@ -1,6 +1,6 @@
 function stratey(a, b)
 {
-	a= Math.random();
+	var a= Math.random();
 	a=a*20;
 	if(a>2)
 	{
