@@ -59,11 +59,11 @@ void messages(int opcode) // This function will be used for printing messages on
 	}
 	else if(opcode==5)
 	{
-		mvprintw(13,6,_("X Wins!"));
+		mvprintw(13,6,_("X Wins!       "));
 	}
 	else if(opcode==6)
 	{
-		mvprintw(13,6,_("O Wins!"));
+		mvprintw(13,6,_("O Wins!       "));
 	}
 	return;
 }
@@ -106,7 +106,7 @@ int parseLetterCoord(int coord)
 	}
 }
 
-int pareNumCoord(int coord)
+int parseNumCoord(int coord)
 {
 	if(coord==1)
 	{
@@ -456,11 +456,11 @@ int main(int argc, const char *argv[])
 			{
 				printf("Error: %s\n", duk_safe_to_string(ctx,-1));
 			}
-			else
-			{
-				printf("%s\n", duk_safe_to_string(ctx,-1));
-			}
-			compX = duk_pop(ctx);
+//			else
+//			{
+//				printf("%s\n", duk_safe_to_string(ctx,-1));
+//			}
+			//compX = duk_require_int(ctx,-1);
 			duk_get_prop_string(ctx,-1,"strategy");
 			duk_push_int(ctx,compX);
 			duk_push_int(ctx,compY);
@@ -468,11 +468,11 @@ int main(int argc, const char *argv[])
 			{
 				printf("Error: %s\n", duk_safe_to_string(ctx,-1));
 			}
-			else
-			{
-				printf("%s\n", duk_safe_to_string(ctx,-1));
-			}
-			compY = duk_pop(ctx);
+//			else
+//			{
+//				printf("%s\n", duk_safe_to_string(ctx,-1));
+//			}
+			//compY = duk_require_int(ctx,-1);
 
 			if(isVBlank(compX,compY))
 			{
@@ -482,6 +482,7 @@ int main(int argc, const char *argv[])
 			}
 		}
 //////////////// End js computer turn
+
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
