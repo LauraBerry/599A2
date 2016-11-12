@@ -316,7 +316,7 @@ void getPlayerInput() // This function collects player input for tile to play
 	return;
 }
 
-bool getComputerInput()
+bool getComputerInput() // **BROKEN**
 {
 	messages(3); // clear player's prompts
 	int x, y;
