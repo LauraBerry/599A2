@@ -90,29 +90,36 @@ void drawBoard() // Draws the initial blank board
 	return;
 }
 
-void initVBoard() // Initialize the virtual board to blank -- BROKEN
+int parseLetterCoord(int coord)
 {
-	int x=0;
-	int y=0;
-//	board = {{'E','E','E'},{'E','E','E'},{'E','E','E'}};
-	while(x<3)
+	if(coord==1)
 	{
-		while(y<3)
-		{
-			board[x][y]=EMPTY; // Set the space on the board with an invalid character
-			y++;
-		}
-		x++;
+		return A;
 	}
-	return;
+	else if(coord==2)
+	{
+		return B;
+	}
+	else if(coord==3)
+	{
+		return C;
+	}
 }
 
-void testDraw() // Just a sanity check
+int pareNumCoord(int coord)
 {
-	mvprintw(6,10,"X"); // 6,10
-	mvprintw(6,12,"X");
-	move(13,6);
-	refresh();	
+	if(coord==1)
+	{
+		return ONE;
+	}
+	else if(coord==2)
+	{
+		return TWO;
+	}
+	else if(coord==3)
+	{
+		return THREE;
+	}
 }
 
 void updateBoard(int number, int letter, char player)    // Updates the virtual board that is used to keep track of space played
@@ -235,6 +242,18 @@ bool isBlank(int number, int letter) // Tests if a spot on the game board is emp
 		}
 	}
 	return true;    // If no match is found, return true to continue looping in getPlayerInput()
+}
+
+bool isVBlank(int x, int y)
+{
+	if(board[x][y]==EMPTY)
+	{
+		return true; // Return true if the space is empty
+	}
+	else
+	{
+		return false; // Return false if the space is not empty
+	}
 }
 
 void getPlayerInput() // This function collects player input for tile to play
@@ -407,7 +426,8 @@ int main(int argc, const char *argv[])
 		printf("Error: %s\n", duk_safe_to_string(ctx, -1));
 		goto finished;
 	}
-	
+	duk_pop(ctx); // Ignore result
+
 	setlocale(LC_ALL, "");
 	bindtextdomain("t3","/fr/LC_MESSAGES/t3.mo");
 	bindtextdomain("t3","/es/LC_MESSAGES/t3.mo");
@@ -419,10 +439,49 @@ int main(int argc, const char *argv[])
 	cbreak();    // Curses call to not require enter key for input
 	noecho();    // Curses call to not print input characters
 	char game = 'Z';
+	bool comp = true;
 	while(true)
 	{
 		getPlayerInput();    // This function call gets player input for a space to play
-		getComputerInput();
+//////////////// Start js computer turn
+		while(comp)
+		{
+			int compX = rand();
+			int compY = rand();
+			duk_push_global_object(ctx);
+			duk_get_prop_string(ctx,-1,"strategy");
+			duk_push_int(ctx,compX);
+			duk_push_int(ctx,compY);
+			if(duk_pcall(ctx,2) != 0)
+			{
+				printf("Error: %s\n", duk_safe_to_string(ctx,-1));
+			}
+			else
+			{
+				printf("%s\n", duk_safe_to_string(ctx,-1));
+			}
+			compX = duk_pop(ctx);
+			duk_get_prop_string(ctx,-1,"strategy");
+			duk_push_int(ctx,compX);
+			duk_push_int(ctx,compY);
+			if(duk_pcall(ctx,2) != 0)
+			{
+				printf("Error: %s\n", duk_safe_to_string(ctx,-1));
+			}
+			else
+			{
+				printf("%s\n", duk_safe_to_string(ctx,-1));
+			}
+			compY = duk_pop(ctx);
+
+			if(isVBlank(compX,compY))
+			{
+				board[compX][compY] = 'O';
+				mvprintw(parseLetterCoord(compY),parseNumCoord(compX),"O");
+
+			}
+		}
+//////////////// End js computer turn
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
