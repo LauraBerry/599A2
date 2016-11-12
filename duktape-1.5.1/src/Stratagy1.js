@@ -1,6 +1,6 @@
 function strategy(a, b)
 {
-	var a= Math.random();
+	a= Math.random();
 	a=a*20;
 	if(a>2)
 	{
