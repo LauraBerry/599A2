@@ -1,6 +1,7 @@
 /* CPSC 599 - Assignment 2
  * By: Yue Chen, Laura Berry, Andrew Lata
  * 
+ * gcc -std=c99 duktape.c t3.c -lm -lncurses
  */
 
 
@@ -26,6 +27,7 @@ int ONE = 10;
 int TWO = 12;
 int THREE = 14;
 char EMPTY = 'E';
+char tempstring[9];
 
 void init() // Initializing tasks, run when the program starts
 {
@@ -34,6 +36,19 @@ void init() // Initializing tasks, run when the program starts
 	clear();
 	refresh();
 	return;	
+}
+
+char *boardgetstring(char a[])
+{
+  int tempnum = 0;   //position in the string
+  for(int i =0;i<2;i++)
+    {
+      for(int j =0;j<2;j++)
+	{
+	  a[tempnum] = board[i][j];
+	}
+    }
+  return a;
 }
 
 void messages(int opcode) // This function will be used for printing messages on screen
@@ -58,11 +73,11 @@ void messages(int opcode) // This function will be used for printing messages on
 	}
 	else if(opcode==5)
 	{
-		mvprintw(13,6,_("X Wins!"));
+		mvprintw(13,6,_("X Wins!       "));
 	}
 	else if(opcode==6)
 	{
-		mvprintw(13,6,_("O Wins!"));
+		mvprintw(13,6,_("O Wins!       "));
 	}
 	return;
 }
@@ -89,29 +104,36 @@ void drawBoard() // Draws the initial blank board
 	return;
 }
 
-void initVBoard() // Initialize the virtual board to blank -- BROKEN
+int parseLetterCoord(int coord)
 {
-	int x=0;
-	int y=0;
-//	board = {{'E','E','E'},{'E','E','E'},{'E','E','E'}};
-	while(x<3)
+	if(coord==1)
 	{
-		while(y<3)
-		{
-			board[x][y]=EMPTY; // Set the space on the board with an invalid character
-			y++;
-		}
-		x++;
+		return A;
 	}
-	return;
+	else if(coord==2)
+	{
+		return B;
+	}
+	else if(coord==3)
+	{
+		return C;
+	}
 }
 
-void testDraw() // Just a sanity check
+int parseNumCoord(int coord)
 {
-	mvprintw(6,10,"X"); // 6,10
-	mvprintw(6,12,"X");
-	move(13,6);
-	refresh();	
+	if(coord==1)
+	{
+		return ONE;
+	}
+	else if(coord==2)
+	{
+		return TWO;
+	}
+	else if(coord==3)
+	{
+		return THREE;
+	}
 }
 
 void updateBoard(int number, int letter, char player)    // Updates the virtual board that is used to keep track of space played
@@ -236,6 +258,18 @@ bool isBlank(int number, int letter) // Tests if a spot on the game board is emp
 	return true;    // If no match is found, return true to continue looping in getPlayerInput()
 }
 
+bool isVBlank(int x, int y)
+{
+	if(board[x][y]==EMPTY)
+	{
+		return true; // Return true if the space is empty
+	}
+	else
+	{
+		return false; // Return false if the space is not empty
+	}
+}
+
 void getPlayerInput() // This function collects player input for tile to play
 {
 	messages(1);    // Call to print function
@@ -296,9 +330,23 @@ void getPlayerInput() // This function collects player input for tile to play
 	return;
 }
 
-void getComputerInput()
+bool getComputerInput() // **BROKEN**
 {
 	messages(3); // clear player's prompts
+	int x, y;
+	for(x=0;x<3;x++)
+	{
+		for(y=0;y<3;y++)
+		{
+			if(board[x][y]==EMPTY)
+			{
+				board[x][y]='O';
+				mvprintw(parseLetterCoord(x),parseNumCoord(y),"O");
+				return true;	
+			}
+		}
+	}
+	return false;
 	// **ADD** Computer player code, include scripting abilitiy
 }
 
@@ -393,19 +441,23 @@ char testWin() // Tests the board for win conditions and returns who won, if any
 
 int main(int argc, const char *argv[])
 {
-	duk_context *ctx = NULL;
+	duk_context *ctx;
 	ctx = duk_create_heap_default();
 	if(!ctx)
 	{
 		printf("Failed to create a Duktape heap.\n");
 		exit(1);
 	}
-	if(duk_preval_file(ctx,argv[1]) != 0)
+// The following code causes running the program to fail
+	if(duk_peval_file(ctx,"Stratagy1.js") != 0)
 	{
-		printf("Error: %s\n", duk_safe_to_string(ctx, -1);
+		printf("Error: %s\n", duk_safe_to_string(ctx, -1));
 		goto finished;
 	}
+	duk_pop(ctx); // Ignore result
+	duk_push_global_object(ctx);
 	
+
 	setlocale(LC_ALL, "");
 	bindtextdomain("t3","/fr/LC_MESSAGES/t3.mo");
 	bindtextdomain("t3","/es/LC_MESSAGES/t3.mo");
@@ -417,15 +469,39 @@ int main(int argc, const char *argv[])
 	cbreak();    // Curses call to not require enter key for input
 	noecho();    // Curses call to not print input characters
 	char game = 'Z';
+	bool comp = true;
 	while(true)
 	{
 		getPlayerInput();    // This function call gets player input for a space to play
-		getComputerInput();
+		
+//////////////// Start js computer turn
+		  
+		duk_get_prop_string(ctx,-1,"strategy");
+	       	duk_push_string(ctx, boardgetstring(tempstring));
+
+		if(duk_pcall(ctx,1) != 0){
+		  mvprintw(18,6,"get a reply");
+		}
+		else{
+		  
+		}
+		duk_pop(ctx);
+		
+		
+//////////////// End js computer turn
+
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
 			break;
 		}
+		
+/*		getComputerInput();
+		if(comp==false)
+		{
+			break;
+		}
+*/
 	}
 	messages(3);
 	if(game=='X')
@@ -436,11 +512,11 @@ int main(int argc, const char *argv[])
 	{
 		messages(6);
 	}
-
+	mvprintw(18,6,"GAME OVER");
 	refresh();
 finished:
 	duk_destroy_heap(ctx);
-	mvprintw(18,6,"GAME OVER");
+
 	return 0;
 }
 
