@@ -1,13 +1,19 @@
-function strategy(a)
+var a;
+var arr;
+
+function strategy(tostring)
 {
-	var arr= a.split();
-	var i=0;
-	for (int i=0; i<arr.length(); i++)
+	var i;
+	i=0;
+	for (ch in String tostring)
 	{
-		if (arr[i]=="E")
+		if (ch=='E')
 		{
 			return i;
 		}
+		else
+		{
+			i++;
+		}
 	}
-	return i;
 }

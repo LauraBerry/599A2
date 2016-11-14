@@ -28,6 +28,7 @@ int TWO = 12;
 int THREE = 14;
 char EMPTY = 'E';
 
+
 void init() // Initializing tasks, run when the program starts
 {
 	wnd = initscr();
@@ -35,6 +36,21 @@ void init() // Initializing tasks, run when the program starts
 	clear();
 	refresh();
 	return;	
+}
+
+const char * boardtostring(char a[3][3])
+{
+	char tostring[9];
+	int tempint = 0;
+	for(int i = 0;i<2;i++)
+	{
+		for(int j = 0; j<2;j++)
+		{
+			tostring[tempint] = a[i][j];
+			tempint++;
+		}
+	}
+	return tostring;
 }
 
 void messages(int opcode) // This function will be used for printing messages on screen
@@ -424,10 +440,72 @@ char testWin() // Tests the board for win conditions and returns who won, if any
 
 	return 'Z';
 }
+int[] get_coords(int a)
+{
+	int[] result= new int [2];
+	result[0]=0;
+	result[1]=0;
+	if (a==0)
+	{
+		return result;
+	}
+	else if (a==1)
+	{
+		result[1]=1;
+		return result;
+	}
+	else if (a==2)
+	{
+		result[1]=2;
+		return result;
+	}
+	else
+	{
+		result[0]=1;
+		if(a==3)
+		{
+			result[1]=0;
+			return result;
+		}
+		else if (a==4)
+		{
+			result[1]=1;
+			return result;
+		}
+		else if (a==5)
+		{
+			result[1]=2;
+			return result;
+		}
+		else
+		{
+			result[0]=2;
+			if (a==6)
+			{
+				result[1]=0;
+				return result;
+			}
+			else if (a==7)
+			{
+				result[1]=1;
+				return result;
+			}
+			else
+			{
+				result[1]=2;
+				return result;
+			}
+		}
+		
+	}
+	
+}
 
 int main(int argc, const char *argv[])
 {
-	duk_context *ctx;
+	const char * tempstring;
+
+	duk_context *ctx = NULL;
 	ctx = duk_create_heap_default();
 	if(!ctx)
 	{
@@ -457,47 +535,28 @@ int main(int argc, const char *argv[])
 	while(true)
 	{
 		getPlayerInput();    // This function call gets player input for a space to play
-/*
+
 //////////////// Start js computer turn
-		while(comp)
-		{
-			int compX = rand();
-			int compY = rand();
 			duk_push_global_object(ctx);
 			duk_get_prop_string(ctx,-1,"strategy");
-			duk_push_int(ctx,compX);
-			duk_push_int(ctx,compY);
-			if(duk_pcall(ctx,2) != 0)
+			tempstring = boardtostring(board);
+			duk_push_string(ctx, tempstring);
+			if(duk_pcall(ctx,1) != 0)
 			{
 				printf("Error: %s\n", duk_safe_to_string(ctx,-1));
 			}
-//			else
-//			{
-//				printf("%s\n", duk_safe_to_string(ctx,-1));
-//			}
-			//compX = duk_require_int(ctx,-1);
-			duk_get_prop_string(ctx,-1,"strategy");
-			duk_push_int(ctx,compX);
-			duk_push_int(ctx,compY);
-			if(duk_pcall(ctx,2) != 0)
+			else
 			{
-				printf("Error: %s\n", duk_safe_to_string(ctx,-1));
+				int temp = duk_get_int(ctx, -1);
+				int[] coords = new int[2];
+				coord=get_coords(temp);
+				board[coor[0]][coord[1]] = 'O';
+				mvprintw(1,1,"O");
+			
 			}
-//			else
-//			{
-//				printf("%s\n", duk_safe_to_string(ctx,-1));
-//			}
-			//compY = duk_require_int(ctx,-1);
 
-			if(isVBlank(compX,compY))
-			{
-				board[compX][compY] = 'O';
-				mvprintw(parseLetterCoord(compY),parseNumCoord(compX),"O");
-
-			}
-		}
 //////////////// End js computer turn
-*/
+
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
@@ -527,4 +586,3 @@ finished:
 
 	return 0;
 }
-

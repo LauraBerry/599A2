@@ -1,8 +1,40 @@
-function strategy(a, b)
+function strategy(tostring)
 {
-	a = a*20;
-	b = b*20;
-	a=a*b;
-	a=a%2;
-	return a;
+	var i;
+	var found;
+	i=0;
+	found = false;
+	for (ch in String tostring)
+	{
+		if (ch=='E')
+		{
+			if (found ==true)
+			{
+				return i;
+			}
+			else
+			{
+				found = true;
+				i++;
+			}
+		}
+		else
+		{
+			i++;
+		}
+	}
+	for (cha in String tostring)
+	{
+		if (ch=='E')
+		{
+			return i;
+		}
+		else
+		{
+			i++;
+		}
+	}
+	return i;
+}
+	
 }
