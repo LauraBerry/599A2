@@ -4,6 +4,5 @@ function strategy(a, b)
 	b = b*20;
 	a=a*b;
 	a=a%2;
-	a=Math.floor(a);
 	return a;
 }

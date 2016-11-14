@@ -1,11 +1,13 @@
-function strategy(a, b)
+function strategy(a)
 {
-	a= Math.random();
-	a=a*20;
-	if(a>2)
+	var arr= a.split();
+	var i=0;
+	for (int i=0; i<arr.length(); i++)
 	{
-		a=a%2;
+		if (arr[i]=="E")
+		{
+			return i;
+		}
 	}
-	a=Math.floor(a);
-	return a;
+	return i;
 }
