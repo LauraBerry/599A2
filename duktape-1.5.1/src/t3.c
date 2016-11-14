@@ -551,7 +551,7 @@ int main(int argc, const char *argv[])
 				int[] coords = new int[2];
 				coord=get_coords(temp);
 				board[coor[0]][coord[1]] = 'O';
-				mvprintw(1,1,"O");
+				mvprintw(parseLetterCoord(coord[0]),parseNumCoord(coor[1]),"O");
 			
 			}
 
