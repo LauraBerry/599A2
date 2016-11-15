@@ -82,6 +82,10 @@ void messages(int opcode) // This function will be used for printing messages on
 	{
 		mvprintw(13,6,_("O Wins!               "));
 	}
+	else if(opcode==7)
+	{
+		mvprintw(18,6,"GAME OVER");
+	}
 	return;
 }
 
@@ -566,7 +570,7 @@ int main(int argc, const char *argv[])
 	{
 		messages(6);
 	}
-	mvprintw(18,6,"GAME OVER");
+	messages(7);
 	refresh();
 finished:
 	duk_destroy_heap(ctx);
