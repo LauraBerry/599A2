@@ -39,21 +39,6 @@ void init() // Initializing tasks, run when the program starts
 	return;	
 }
 
-const char * boardtostring(char* tostring)
-{
-//	char tostring[9];
-	int tempint = 0;
-	for(int i = 0;i<2;i++)
-	{
-		for(int j = 0; j<2;j++)
-		{
-			tostring[tempint] = board[i][j];
-			tempint++;
-		}
-	}
-	return tostring;
-}
-
 void messages(int opcode) // This function will be used for printing messages on screen
 { // Used to easily add in language localization
 	if(opcode==1) // opcode for user space selection prompt
@@ -539,9 +524,7 @@ int main(int argc, const char *argv[])
 					tempInt++;
 				}
 			}
-//			tempString[tempInt] = '\0';
 //			mvprintw(18,6,tempString);  // Visual confirmaltion of board string formatting properly
-//			boardtostring(tempstring);
 			duk_push_string(ctx, tempString);
 			if(duk_pcall(ctx,1) != 0)
 			{
