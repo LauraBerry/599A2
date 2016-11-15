@@ -331,78 +331,78 @@ char testWin() // Tests the board for win conditions and returns who won, if any
 		{		
 			return 'X'; // If diagonal line \ X wins
 		}
-		else if(board[0][1]=='X' && board[2][1]=='X')
+		if(board[0][1]=='X' && board[2][1]=='X')
 		{
 			return 'X'; // If vertical line | X wins
 		}
-		else if(board[0][2]=='X' && board[2][0]=='X')
+		if(board[0][2]=='X' && board[2][0]=='X')
 		{
 			return 'X'; // If diagonal line / X wins
 		}
-		else if(board[1][0]=='X' && board[1][2]=='X')
+		if(board[1][0]=='X' && board[1][2]=='X')
 		{
 			return 'X'; // If horizontal line - X wins
 		}
 	}
-	else if(mid=='O')
+	if(mid=='O')
 	{
 		if(board[0][0]=='O' && board[2][2]=='O')
 		{		
 			return 'O'; // If diagonal line \ X wins
 		}
-		else if(board[0][1]=='O' && board[2][1]=='O')
+		if(board[0][1]=='O' && board[2][1]=='O')
 		{
 			return 'O'; // If vertical line | X wins
 		}
-		else if(board[0][2]=='O' && board[2][0]=='O')
+		if(board[0][2]=='O' && board[2][0]=='O')
 		{
 			return 'O'; // If diagonal line / X wins
 		}
-		else if(board[1][0]=='O' && board[1][2]=='O')
+		if(board[1][0]=='O' && board[1][2]=='O')
 		{
 			return 'O'; // If horizontal line - X wins
 		}
 	}
-	else if(board[0][0]=='X')
+	if(board[0][0]=='X')
 	{
 		if(board[0][1]=='X' && board[0][2]=='X')
 		{
 			return 'X';
 		}
-		else if(board[1][0]=='X' && board[2][0]=='X')
+		if(board[1][0]=='X' && board[2][0]=='X')
 		{
 			return 'X';
 		}
 	}
-	else if(board[0][0]=='O')
+	if(board[0][0]=='O')
 	{
 		if(board[0][1]=='O' && board[0][2]=='O')
 		{
 			return 'O';
 		}
-		else if(board[1][0]=='O' && board[2][0]=='O')
+		if(board[1][0]=='O' && board[2][0]=='O')
 		{
 			return 'O';
 		}
 	}
-	else if(board[2][2]=='X')
+	if(board[2][2]=='X')
 	{
 		if(board[2][0]=='X' && board[2][1]=='X')
 		{
 			return 'X';
 		}
-		else if(board[1][2]=='X' && board[0][2]=='X')
+		if(board[1][2]=='X' && board[0][2]=='X')
 		{
 			return 'X';
 		}
 	}
-	else if(board[2][2]=='O')
+	if(board[2][2]=='O')
 	{
 		if(board[2][0]=='O' && board[2][1]=='O')
 		{
 			return 'O';
 		}
-		else if(board[1][2]=='O' && board[0][2]=='O')
+		if(board[1][2]=='O' && board[0][2]=='O')
 		{
 			return 'O';
 		}
@@ -482,7 +482,7 @@ int main(int argc, const char *argv[])
 		exit(1);
 	}
 // The following code causes running the program to fail
-	if(duk_peval_file(ctx,"Stratagy1.js") != 0)
+	if(duk_peval_file(ctx,argv[1]) != 0)  // The argument supplied is expected to be the .js strategy to load
 	{
 		printf("Error: %s\n", duk_safe_to_string(ctx, -1));
 		goto finished;
@@ -508,7 +508,7 @@ int main(int argc, const char *argv[])
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
-			break;
+			goto endgame;
 		}
 
 //////////////// Start js computer turn
@@ -541,9 +541,10 @@ int main(int argc, const char *argv[])
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
-			break;
+			goto endgame;
 		}
 	}
+endgame:
 	messages(3);
 	if(game=='X')
 	{
