@@ -69,7 +69,7 @@ void messages(int opcode) // This function will be used for printing messages on
 	}
 	else if(opcode==7)
 	{
-		mvprintw(18,6,"GAME OVER");
+		mvprintw(18,6,_("GAME OVER"));
 	}
 	return;
 }
