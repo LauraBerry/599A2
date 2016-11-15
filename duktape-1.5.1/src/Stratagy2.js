@@ -1,11 +1,10 @@
-function strategy(tostring)
+function strategy(tempstring)
 {
-	var i;
 	var found;
-	i=0;
 	found = false;
-	for (ch in String tostring)
+	for (var i = 0, len = tempstring.length; i < len; i++) 
 	{
+		var ch = tempstring.charAt(i);
 		if (ch=='E')
 		{
 			if (found ==true)
@@ -15,26 +14,17 @@ function strategy(tostring)
 			else
 			{
 				found = true;
-				i++;
 			}
 		}
-		else
-		{
-			i++;
-		}
 	}
-	for (cha in String tostring)
+	for (var j = 0, len = tempstring.length; j < len; j++) 
 	{
+		ch = tempstring.charAt(i);
 		if (ch=='E')
 		{
-			return i;
-		}
-		else
-		{
-			i++;
+			return j;
 		}
 	}
-	return i;
+	return j;
 }
-	
-}
+
