@@ -1,13 +1,9 @@
-var a;
-var arr;
 
-function strategy(tostring)
+function strategy(tempstring)
 {
-	var i;
-	i=0;
-	for (ch in String tostring)
+	for (var i = 0, len = tempstring.length; i < len; i++) 
 	{
-		if (ch=='E')
+		if (tempstring[i]=='E')
 		{
 			return i;
 		}

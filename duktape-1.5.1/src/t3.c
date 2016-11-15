@@ -27,6 +27,7 @@ int ONE = 10;
 int TWO = 12;
 int THREE = 14;
 char EMPTY = 'E';
+char tostring[9];
 
 
 void init() // Initializing tasks, run when the program starts
@@ -38,9 +39,9 @@ void init() // Initializing tasks, run when the program starts
 	return;	
 }
 
-const char * boardtostring(char a[3][3])
+const char * boardtostring(char a[3][3], char* tostring)
 {
-	char tostring[9];
+//	char tostring[9];
 	int tempint = 0;
 	for(int i = 0;i<2;i++)
 	{
@@ -440,59 +441,58 @@ char testWin() // Tests the board for win conditions and returns who won, if any
 
 	return 'Z';
 }
-int[] get_coords(int a)
+int * get_coords(int a, int* result)
 {
-	int[] result= new int [2];
-	result[0]=0;
-	result[1]=0;
+	result[0]=1;
+	result[1]=1;
 	if (a==0)
 	{
 		return result;
 	}
 	else if (a==1)
 	{
-		result[1]=1;
+		result[1]=2;
 		return result;
 	}
 	else if (a==2)
 	{
-		result[1]=2;
+		result[1]=3;
 		return result;
 	}
 	else
 	{
-		result[0]=1;
+		result[0]=2;
 		if(a==3)
-		{
-			result[1]=0;
-			return result;
-		}
-		else if (a==4)
 		{
 			result[1]=1;
 			return result;
 		}
-		else if (a==5)
+		else if (a==4)
 		{
 			result[1]=2;
 			return result;
 		}
+		else if (a==5)
+		{
+			result[1]=3;
+			return result;
+		}
 		else
 		{
-			result[0]=2;
+			result[0]=3;
 			if (a==6)
-			{
-				result[1]=0;
-				return result;
-			}
-			else if (a==7)
 			{
 				result[1]=1;
 				return result;
 			}
-			else
+			else if (a==7)
 			{
 				result[1]=2;
+				return result;
+			}
+			else
+			{
+				result[1]=3;
 				return result;
 			}
 		}
@@ -503,7 +503,7 @@ int[] get_coords(int a)
 
 int main(int argc, const char *argv[])
 {
-	const char * tempstring;
+	char  tempstring[9];
 
 	duk_context *ctx = NULL;
 	ctx = duk_create_heap_default();
@@ -539,7 +539,7 @@ int main(int argc, const char *argv[])
 //////////////// Start js computer turn
 			duk_push_global_object(ctx);
 			duk_get_prop_string(ctx,-1,"strategy");
-			tempstring = boardtostring(board);
+			boardtostring(board, tempstring);
 			duk_push_string(ctx, tempstring);
 			if(duk_pcall(ctx,1) != 0)
 			{
@@ -548,10 +548,27 @@ int main(int argc, const char *argv[])
 			else
 			{
 				int temp = duk_get_int(ctx, -1);
-				int[] coords = new int[2];
-				coord=get_coords(temp);
-				board[coor[0]][coord[1]] = 'O';
-				mvprintw(parseLetterCoord(coord[0]),parseNumCoord(coor[1]),"O");
+				int coords[2];
+				get_coords(temp, coords);
+				/*if(coords[0]==1)
+				{
+								mvprintw(0,0,"1");
+				}
+				else if(coords[0]==2)
+				{
+								mvprintw(0,0,"2");
+				}
+				else if(coords[0]==3)
+				{
+									mvprintw(0,0,"3");
+				}
+				else
+				{
+								mvprintw(0,0,"wrong");
+				}*/
+				updateBoard(parseNumCoord(coords[1]),parseLetterCoord(coords[0]), 'O');
+//drawBoard();			
+	mvprintw(parseLetterCoord(coords[0]),parseNumCoord(coords[1]),"O");
 			
 			}
 
