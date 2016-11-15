@@ -1,5 +1,5 @@
 /* CPSC 599 - Assignment 2
- * By: Yue Chen, Laura Berry, Andrew Lata
+ * By: Andrew Lata, Yue Chen, Laura Berry
  * 
  * gcc -std=c99 duktape.c t3.c -lm -lncurses
  */
