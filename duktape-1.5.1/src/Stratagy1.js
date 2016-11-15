@@ -1,10 +1,10 @@
 
-function strategy(tempstring)
+function strategy(tempString)
 {
-	for (var i = 0, len = tempstring.length; i < len; i++) 
+	for (var i = 0, len = tempString.length; i < len; i++) 
 	{
-		var ch = tempstring.charAt(i);
-		if (ch=='E')
+		var ch = tempString.charAt(i);
+		if (tempString.charAt(i)=='E')
 		{
 			return i;
 		}

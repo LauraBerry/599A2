@@ -535,7 +535,7 @@ int main(int argc, const char *argv[])
 					tempInt++;
 				}
 			}
-			tempString[tempInt] = '\0';
+//			tempString[tempInt] = '\0';
 			mvprintw(18,6,tempString);
 //			boardtostring(tempstring);
 			duk_push_string(ctx, tempString);
