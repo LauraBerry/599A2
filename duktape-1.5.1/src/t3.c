@@ -508,7 +508,7 @@ int main(int argc, const char *argv[])
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
-			goto endgame;
+			break;
 		}
 
 //////////////// Start js computer turn
@@ -541,7 +541,7 @@ int main(int argc, const char *argv[])
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
-			goto endgame;
+			break;
 		}
 	}
 endgame:
