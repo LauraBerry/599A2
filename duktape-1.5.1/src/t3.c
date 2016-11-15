@@ -333,26 +333,6 @@ void getPlayerInput() // This function collects player input for tile to play
 	return;
 }
 
-bool getComputerInput() // **BROKEN**
-{
-	messages(3); // clear player's prompts
-	int x, y;
-	for(x=0;x<3;x++)
-	{
-		for(y=0;y<3;y++)
-		{
-			if(board[x][y]==EMPTY)
-			{
-				board[x][y]='O';
-				mvprintw(parseLetterCoord(x),parseNumCoord(y),"O");
-				return true;	
-			}
-		}
-	}
-	return false;
-	// **ADD** Computer player code, include scripting abilitiy
-}
-
 char testWin() // Tests the board for win conditions and returns who won, if any, and Z if nobody wins
 {
 	char mid = board[1][1];
@@ -441,65 +421,64 @@ char testWin() // Tests the board for win conditions and returns who won, if any
 
 	return 'Z';
 }
-int * get_coords(int a, int* result)
+
+void get_coords(int a)
 {
-	result[0]=1;
-	result[1]=1;
 	if (a==0)
 	{
-		result[0]=1;
-		result[1]=1;
-		return result;
+		updateBoard(ONE,A, 'O');		
+		mvprintw(A,ONE,"O");
+		return;
 	}
 	else if (a==1)
 	{
-		result[0]=1;
-		result[1]=2;
-		return result;
+		updateBoard(TWO,A, 'O');		
+		mvprintw(A,TWO,"O");
+		return;
 	}
 	else if (a==2)
 	{
-		result[0]=1;
-		result[1]=3;
-		return result;
+		updateBoard(THREE,A, 'O');		
+		mvprintw(A,THREE,"O");
+		return;
 	}
 	else if(a==3)
 	{
-		result[0]=2;
-		result[1]=1;
-		return result;
+		updateBoard(ONE,B, 'O');		
+		mvprintw(B,ONE,"O");
+		return;
 	}
 	else if (a==4)
 	{
-		result[0]=2;
-		result[1]=2;
-		return result;
+		updateBoard(TWO,B, 'O');		
+		mvprintw(B,TWO,"O");
+		return;
 	}
 	else if (a==5)
 	{
-		result[0]=2;
-		result[1]=3;
-		return result;
+		updateBoard(THREE,B, 'O');		
+		mvprintw(B,THREE,"O");
+		return;
 	}
 	else if (a==6)
 	{
-		result[0]=3;
-		result[1]=1;
-		return result;
+		updateBoard(ONE,C, 'O');		
+		mvprintw(C,ONE,"O");
+		return;
 	}
 	else if (a==7)
 	{
-		result[0]=3;
-		result[1]=2;
-		return result;
+		updateBoard(TWO,C, 'O');		
+		mvprintw(C,TWO,"O");
+		return;
 	}
 	else if (a==8)
 	{
-		result[0]=3;
-		result[1]=3;
-		return result;
+		updateBoard(THREE,C, 'O');		
+		mvprintw(C,THREE,"O");
+		return;
 	}
-	return result;	
+	return;	
 }
 
 int main(int argc, const char *argv[])
@@ -542,10 +521,6 @@ int main(int argc, const char *argv[])
 			duk_push_global_object(ctx);
 			duk_get_prop_string(ctx,-1,"strategy");
 			boardtostring(board, tempstring);
-			if(strcmp(tempstring,"XEEEEEEEE")==0)
-			{
-					mvprintw(18,6,"GOOD SHIT");
-			}
 			duk_push_string(ctx, tempstring);
 			if(duk_pcall(ctx,1) != 0)
 			{
@@ -554,28 +529,7 @@ int main(int argc, const char *argv[])
 			else
 			{
 				int temp = duk_get_int(ctx, -1);
-				int coords[2];
-				get_coords(temp, coords);
-				/*if(coords[0]==1)
-				{
-								mvprintw(0,0,"1");
-				}
-				else if(coords[0]==2)
-				{
-								mvprintw(0,0,"2");
-				}
-				else if(coords[0]==3)
-				{
-									mvprintw(0,0,"3");
-				}
-				else
-				{
-								mvprintw(0,0,"wrong");
-				}*/
-				updateBoard(parseNumCoord(coords[1]),parseLetterCoord(coords[0]), 'O');		
-				mvprintw(parseLetterCoord(coords[0]),parseNumCoord(coords[1]),"O");
-
-			
+				get_coords(temp);
 			}
 
 //////////////// End js computer turn
@@ -585,13 +539,6 @@ int main(int argc, const char *argv[])
 		{
 			break;
 		}
-		
-/*		getComputerInput();
-		if(comp==false)
-		{
-			break;
-		}
-*/
 	}
 	messages(3);
 	if(game=='X')
