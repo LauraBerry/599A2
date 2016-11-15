@@ -1,4 +1,4 @@
-# French translations for duktape package.
+# German translations for duktape package.
 # Copyright (C) 2016 THE duktape'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the duktape package.
 # yuechen <yuechen@csx1.cs.ucalgary.ca>, 2016.
@@ -7,19 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: duktape 1.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-15 12:59-0700\n"
-"PO-Revision-Date: 2016-11-15 13:01-0700\n"
+"POT-Creation-Date: 2016-11-15 13:26-0700\n"
+"PO-Revision-Date: 2016-11-15 13:00-0700\n"
 "Last-Translator: yuechen <yuechen@csx1.cs.ucalgary.ca>\n"
-"Language-Team: French\n"
-"Language: fr\n"
+"Language-Team: German\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: t3.c:46
 msgid "Choose an empty space   "
 msgstr "Choisissez un espace vide"
+
+#: t3.c:72
+msgid "GAME OVER"
+msgstr "JEU TERMINE"
 
 #: t3.c:68
 msgid "O Wins!                   "
