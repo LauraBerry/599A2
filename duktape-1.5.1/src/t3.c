@@ -483,7 +483,7 @@ void get_coords(int a)
 
 int main(int argc, const char *argv[])
 {
-	char  tempstring[9];
+	char tempString[9];
 
 	duk_context *ctx = NULL;
 	ctx = duk_create_heap_default();
@@ -512,6 +512,7 @@ int main(int argc, const char *argv[])
 	noecho();    // Curses call to not print input characters
 	char game = 'Z';
 	bool comp = true;
+	int tempInt = 0;
 	while(true)
 	{
 		getPlayerInput();    // This function call gets player input for a space to play
@@ -525,8 +526,17 @@ int main(int argc, const char *argv[])
 
 			duk_push_global_object(ctx);
 			duk_get_prop_string(ctx,-1,"strategy");
-			boardtostring(tempstring);
-			duk_push_string(ctx, tempstring);
+			tempInt = 0;
+			for(int i = 0;i<2;i++)
+			{
+				for(int j = 0; j<2;j++)
+				{
+					tempString[tempInt] = board[i][j];
+					tempInt++;
+				}
+			}
+//			boardtostring(tempstring);
+			duk_push_string(ctx, tempString);
 			if(duk_pcall(ctx,1) != 0)
 			{
 				printf("Error: %s\n", duk_safe_to_string(ctx,-1));
