@@ -76,11 +76,11 @@ void messages(int opcode) // This function will be used for printing messages on
 	}
 	else if(opcode==5)
 	{
-		mvprintw(13,6,_("X Wins!             "));
+		mvprintw(13,6,_("X Wins!               "));
 	}
 	else if(opcode==6)
 	{
-		mvprintw(13,6,_("O Wins!             "));
+		mvprintw(13,6,_("O Wins!               "));
 	}
 	return;
 }
