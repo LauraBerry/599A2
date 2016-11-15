@@ -531,7 +531,7 @@ int main(int argc, const char *argv[])
 			{
 				for(int j = 0; j<3;j++)
 				{
-					tempString[tempInt] = board[i][j];
+					tempString[tempInt] = board[j][i];
 					tempInt++;
 				}
 			}
