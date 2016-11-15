@@ -39,7 +39,7 @@ void init() // Initializing tasks, run when the program starts
 	return;	
 }
 
-const char * boardtostring(char a[3][3], char* tostring)
+const char * boardtostring(char* tostring)
 {
 //	char tostring[9];
 	int tempint = 0;
@@ -47,7 +47,7 @@ const char * boardtostring(char a[3][3], char* tostring)
 	{
 		for(int j = 0; j<2;j++)
 		{
-			tostring[tempint] = a[i][j];
+			tostring[tempint] = board[i][j];
 			tempint++;
 		}
 	}
@@ -525,7 +525,7 @@ int main(int argc, const char *argv[])
 
 			duk_push_global_object(ctx);
 			duk_get_prop_string(ctx,-1,"strategy");
-			boardtostring(board, tempstring);
+			boardtostring(tempstring);
 			duk_push_string(ctx, tempstring);
 			if(duk_pcall(ctx,1) != 0)
 			{
