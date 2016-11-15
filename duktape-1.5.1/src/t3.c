@@ -515,6 +515,11 @@ int main(int argc, const char *argv[])
 	while(true)
 	{
 		getPlayerInput();    // This function call gets player input for a space to play
+		game = testWin();    // This function tests for a win state
+		if(game!='Z')
+		{
+			break;
+		}
 
 //////////////// Start js computer turn
 
