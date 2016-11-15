@@ -472,6 +472,10 @@ void get_coords(int a)
 
 int main(int argc, const char *argv[])
 {
+	setlocale(LC_ALL, "");
+	bindtextdomain("t3","locale");
+	textdomain("t3");
+
 	char tempString[] = "EEEEEEEEE";
 
 	duk_context *ctx = NULL;
@@ -489,12 +493,6 @@ int main(int argc, const char *argv[])
 	}
 	duk_pop(ctx); // Ignore result
 
-	setlocale(LC_ALL, "");
-	bindtextdomain("t3","/fr/LC_MESSAGES/t3.mo");
-	bindtextdomain("t3","/es/LC_MESSAGES/t3.mo");
-	bindtextdomain("t3","/de/LC_MESSAGES/t3.mo");
-	textdomain("t3");
-
 	init();    // Call function to initialize curses
 	drawBoard();    // Call to draw the initial blank board
 	cbreak();    // Curses call to not require enter key for input
@@ -508,7 +506,7 @@ int main(int argc, const char *argv[])
 		game = testWin();    // This function tests for a win state
 		if(game!='Z')
 		{
-			break;
+			break;	
 		}
 
 //////////////// Start js computer turn
