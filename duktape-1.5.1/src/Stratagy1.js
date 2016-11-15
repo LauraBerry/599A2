@@ -3,13 +3,11 @@ function strategy(tempstring)
 {
 	for (var i = 0, len = tempstring.length; i < len; i++) 
 	{
-		if (tempstring[i]=='E')
+		var ch = tempstring.charAt(i);
+		if (ch=='E')
 		{
 			return i;
 		}
-		else
-		{
-			i++;
-		}
+		i++;
 	}
 }

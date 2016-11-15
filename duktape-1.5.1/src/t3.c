@@ -447,58 +447,59 @@ int * get_coords(int a, int* result)
 	result[1]=1;
 	if (a==0)
 	{
+		result[0]=1;
+		result[1]=1;
 		return result;
 	}
 	else if (a==1)
 	{
+		result[0]=1;
 		result[1]=2;
 		return result;
 	}
 	else if (a==2)
 	{
+		result[0]=1;
 		result[1]=3;
 		return result;
 	}
-	else
+	else if(a==3)
 	{
 		result[0]=2;
-		if(a==3)
-		{
-			result[1]=1;
-			return result;
-		}
-		else if (a==4)
-		{
-			result[1]=2;
-			return result;
-		}
-		else if (a==5)
-		{
-			result[1]=3;
-			return result;
-		}
-		else
-		{
-			result[0]=3;
-			if (a==6)
-			{
-				result[1]=1;
-				return result;
-			}
-			else if (a==7)
-			{
-				result[1]=2;
-				return result;
-			}
-			else
-			{
-				result[1]=3;
-				return result;
-			}
-		}
-		
+		result[1]=1;
+		return result;
 	}
-	
+	else if (a==4)
+	{
+		result[0]=2;
+		result[1]=2;
+		return result;
+	}
+	else if (a==5)
+	{
+		result[0]=2;
+		result[1]=3;
+		return result;
+	}
+	else if (a==6)
+	{
+		result[0]=3;
+		result[1]=1;
+		return result;
+	}
+	else if (a==7)
+	{
+		result[0]=3;
+		result[1]=2;
+		return result;
+	}
+	else if (a==8)
+	{
+		result[0]=3;
+		result[1]=3;
+		return result;
+	}
+	return result;	
 }
 
 int main(int argc, const char *argv[])
@@ -537,9 +538,14 @@ int main(int argc, const char *argv[])
 		getPlayerInput();    // This function call gets player input for a space to play
 
 //////////////// Start js computer turn
+
 			duk_push_global_object(ctx);
 			duk_get_prop_string(ctx,-1,"strategy");
 			boardtostring(board, tempstring);
+			if(strcmp(tempstring,"XEEEEEEEE")==0)
+			{
+					mvprintw(18,6,"GOOD SHIT");
+			}
 			duk_push_string(ctx, tempstring);
 			if(duk_pcall(ctx,1) != 0)
 			{
@@ -566,9 +572,9 @@ int main(int argc, const char *argv[])
 				{
 								mvprintw(0,0,"wrong");
 				}*/
-				updateBoard(parseNumCoord(coords[1]),parseLetterCoord(coords[0]), 'O');
-//drawBoard();			
-	mvprintw(parseLetterCoord(coords[0]),parseNumCoord(coords[1]),"O");
+				updateBoard(parseNumCoord(coords[1]),parseLetterCoord(coords[0]), 'O');		
+				mvprintw(parseLetterCoord(coords[0]),parseNumCoord(coords[1]),"O");
+
 			
 			}
 
