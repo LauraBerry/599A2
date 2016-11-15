@@ -8,6 +8,5 @@ function strategy(tempString)
 		{
 			return i;
 		}
-		i++;
 	}
 }
