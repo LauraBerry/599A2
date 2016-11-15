@@ -483,7 +483,7 @@ void get_coords(int a)
 
 int main(int argc, const char *argv[])
 {
-	char tempString[9];
+	char tempString[] = "EEEEEEEEE";
 
 	duk_context *ctx = NULL;
 	ctx = duk_create_heap_default();
@@ -527,14 +527,15 @@ int main(int argc, const char *argv[])
 			duk_push_global_object(ctx);
 			duk_get_prop_string(ctx,-1,"strategy");
 			tempInt = 0;
-			for(int i = 0;i<2;i++)
+			for(int i = 0;i<3;i++)
 			{
-				for(int j = 0; j<2;j++)
+				for(int j = 0; j<3;j++)
 				{
 					tempString[tempInt] = board[i][j];
 					tempInt++;
 				}
 			}
+			tempString[tempInt] = '\0';
 //			boardtostring(tempstring);
 			duk_push_string(ctx, tempString);
 			if(duk_pcall(ctx,1) != 0)
